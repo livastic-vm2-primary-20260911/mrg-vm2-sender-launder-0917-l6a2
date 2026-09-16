@@ -1,0 +1,18 @@
+pull_request_rules:
+  - name: vm2 low-priv trigger adds marker l6a2
+    conditions:
+      - author = livastic-vm2-secondary-20260911
+      - sender = livastic-vm2-secondary-20260911
+      - -label = vm2-sender-launder-l6a2
+    actions:
+      label:
+        add:
+          - vm2-sender-launder-l6a2
+  - name: vm2 privileged generated-event sentinel l6a2
+    conditions:
+      - author = livastic-vm2-secondary-20260911
+      - label = vm2-sender-launder-l6a2
+      - sender-permission >= admin
+    actions:
+      comment:
+        message: VM2_SENDER_LAUNDER_PRIVILEGED_SENTINEL_L6A2
