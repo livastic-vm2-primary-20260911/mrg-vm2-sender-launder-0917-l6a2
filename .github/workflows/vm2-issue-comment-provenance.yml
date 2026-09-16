@@ -1,0 +1,27 @@
+name: VM2 Issue Comment Provenance I9C3
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+jobs:
+  provenance:
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, 'VM2_ISSUE_COMMENT_PROVENANCE_I9C3') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print controlled provenance metadata
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          ACTOR: ${{ github.actor }}
+          SHA: ${{ github.sha }}
+          REF: ${{ github.ref }}
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+          REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          COMMENT_USER: ${{ github.event.comment.user.login }}
+          PR_URL: ${{ github.event.issue.pull_request.url }}
+        run: |
+          printf 'EVENT_NAME=%s\nACTOR=%s\nSHA=%s\nREF=%s\nHEAD_REF=%s\nBASE_REF=%s\nREPOSITORY=%s\nISSUE_NUMBER=%s\nCOMMENT_USER=%s\nPR_URL=%s\n' \
+            "$EVENT_NAME" "$ACTOR" "$SHA" "$REF" "$HEAD_REF" "$BASE_REF" "$REPOSITORY" "$ISSUE_NUMBER" "$COMMENT_USER" "$PR_URL"
